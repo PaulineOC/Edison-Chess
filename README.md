@@ -1,1 +1,4 @@
-# Test1
+Edison Chess, in its current state, uses a chess board hooked up to WiFi via the Intel Edison to host a game between one player playing on a computer and the opponent player playing on the physical board. 
+The computer player chooses their move, and their corresponding piece's move will be reflected on the physical board by moving the piece via magnets and motors under the board. Piece movement is ran by a magnet connected to a series of motors that use polar coordinates for the piece pickup location and the destination. This rig was fitted inside of a chess board we made from foam board. The motors are driven by the Edison and the Arduino, which connect to WiFi and collect movement data from a web application controlled by the user.
+
+Overall, Edison Chess seeks to explore how technology can help in modernizing traditional games while also preserving the rich history and tradition behind these classic games.
