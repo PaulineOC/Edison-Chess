@@ -1,0 +1,107 @@
+<html><title>Edison Chess</title>
+<head>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.2.1.js"></script>
+    <script>
+
+<!-- OLD FUNCTION-->
+        $(function(){
+            var socket = io.connect('http://35.2.2.196:3000');
+            $('#button').on('input change',function(){
+                socket.emit('changeBlinkInterval',$(this).val());
+            });
+        });<!-->
+	var stage = 1;
+	var old_location;
+        var oldname;
+	function buttonclick(num){		
+		if(stage == 1){	
+			if(num==1 || num == 2 || num == 3 || num == 4){	
+				if(document.getElementById(num).value == "BlackP"){
+					 old_location = num;
+					 oldname=document.getElementById(num).value;
+					console.log("stage 2");
+                                        console.log(oldname);
+					stage = 2;
+				}
+			}				
+		}
+		else if(stage ==2){
+			if(document.getElementById(num).value == "Empty"){
+				console.log("stage 3");
+				stage = 3;
+				var socket = io.connect('http://35.2.2.196:3000');
+                		socket.emit('changeBlinkInterval',num);
+				console.log(oldname);				                                				console.log(old_location);
+				document.getElementById("3").innerHTML = oldname;
+				document.getElementById(old_location).innerHTML = "Empty";		
+			}
+		} 
+		else if(stage == 3){
+			BlinkInterval = num;
+	}
+}	
+	function myFunction(){
+		$.get("http://35.2.2.196:3000/temp",function(data){
+			$('#demo').html(data)
+		});
+		read_physical();
+	}
+
+	
+	var old_white_piece;
+	var old_white_location;
+	var new_white_location;
+	var new_white_piece;
+	function read_physical(){
+		old_white_piece_location=document.getElementById(4);
+		old_white_piece = "WhiteP"
+		var temp1 = document.getElementById("demo").innerHTML;
+		if (temp1 == 2) {	
+			document.getElementById("2").innerHTML = old_white_piece;
+               		 document.getElementById("4").innerHTML = "Empty";
+	}
+	}
+
+
+
+    </script>
+
+
+
+<style>
+ #buttons{
+	width: 200px;
+	font-size: 13px;
+}
+
+</style>
+</head>
+
+
+
+
+<center><h1>Let's Play Chess</h1>
+<body>
+	<table border="4px" width="500px" height="500">
+	<tr>
+	<td><button type="button" id="1" onclick="buttonclick(1)" value = "BlackP">BlackP</button></td>
+	<td bgcolor="000000"><button type="button" id="2" onclick="buttonclick(2)" value = "Empty">Empty</button></td>
+	</tr>
+	
+<tr>
+<td bgcolor="000000"><button type="button" id="3" onclick="buttonclick(3)" value = "Empty">Empty</button></td>
+<td><button type="button" id="4" onclick="buttonclick(4)" value = "WhiteP">White</button></td></tr>    
+	</table></center>
+
+<div>
+	<center>	<h2>Update White's Position </h2>
+	<button onclick="myFunction()"> Update position </button>
+	<p id="demo"></p></center>
+	
+</div>
+
+
+
+</body>
+</html>
